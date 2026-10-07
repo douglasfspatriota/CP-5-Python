@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Futebol em Números</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topo">
+    <div class="topo-texto">
+      <h1>Futebol em Números</h1>
+      <p class="sub">Premier League, La Liga, Serie A, Bundesliga, Ligue 1 e Brasileirão · dados coletados da Wikipédia</p>
+    </div>
+    <p class="coleta" id="ultima-coleta">Carregando…</p>
+  </header>
+
+  <section class="filtros" aria-label="Filtros">
+    <label>Liga
+      <select id="f-liga"><option value="">Todas as ligas</option></select>
+    </label>
+    <label>Temporada
+      <select id="f-temporada"><option value="">Todas</option></select>
+    </label>
+    <label class="cresce">Buscar time
+      <input id="f-busca" type="search" list="lista-times" placeholder="Ex.: Flamengo, Arsenal, Bayern…" autocomplete="off">
+      <datalist id="lista-times"></datalist>
+    </label>
+    <button id="f-limpar" type="button" class="botao-sec">Limpar filtros</button>
+  </section>
+
+  <div id="erro" class="erro" hidden></div>
+
+  <section class="kpis" aria-label="Indicadores">
+    <article class="kpi"><h2>Registros coletados</h2><p class="valor" id="k-registros">–</p><p class="det" id="k-registros-det"></p></article>
+    <article class="kpi"><h2>Temporadas</h2><p class="valor" id="k-temporadas">–</p><p class="det" id="k-temporadas-det"></p></article>
+    <article class="kpi"><h2>Gols por jogo</h2><p class="valor" id="k-gols">–</p><p class="det" id="k-gols-det"></p></article>
+    <article class="kpi"><h2>Maior campeão</h2><p class="valor texto" id="k-campeao">–</p><p class="det" id="k-campeao-det"></p></article>
+    <article class="kpi"><h2>Recorde de pontos</h2><p class="valor" id="k-recorde">–</p><p class="det" id="k-recorde-det"></p></article>
+    <article class="kpi"><h2>Campeões diferentes</h2><p class="valor" id="k-distintos">–</p><p class="det" id="k-distintos-det"></p></article>
+  </section>
+
+  <section class="cartao atual" id="sec-atual" hidden>
+    <header><h2>Temporada atual <span class="selo andamento">● em andamento</span></h2>
+      <p>Situação na última coleta. Rode o crawler de novo para atualizar.</p></header>
+    <div class="atual-grade" id="atual-grade"></div>
+  </section>
+
+  <section class="graficos">
+    <article class="cartao largo">
+      <header><h2>Média de gols por jogo</h2><p>Uma linha por liga, temporada a temporada</p></header>
+      <div class="area-grafico"><canvas id="g-gols" aria-label="Gráfico de linhas: média de gols por jogo por temporada"></canvas></div>
+    </article>
+    <article class="cartao">
+      <header><h2>Clubes com mais títulos</h2><p>No período coletado</p></header>
+      <div class="area-grafico"><canvas id="g-titulos" aria-label="Gráfico de barras: títulos por clube"></canvas></div>
+      <div class="legenda" id="leg-titulos"></div>
+    </article>
+    <article class="cartao">
+      <header><h2 id="g-disputa-titulo">Equilíbrio das ligas</h2><p id="g-disputa-sub">Diferença média de pontos entre campeão e vice (menor = mais disputada)</p></header>
+      <div class="area-grafico"><canvas id="g-disputa" aria-label="Gráfico de barras: diferença de pontos entre 1º e 2º"></canvas></div>
+    </article>
+    <article class="cartao largo">
+      <header><h2 id="g-time-titulo">Trajetória de um time</h2><p id="g-time-sub">Busque um time no filtro acima para ver a posição dele em cada temporada</p></header>
+      <div class="area-grafico recolhido">
+        <canvas id="g-time" aria-label="Gráfico de linhas: posição do time por temporada"></canvas>
+        <p class="vazio" id="g-time-vazio">Nenhum time selecionado.</p>
+      </div>
+    </article>
+  </section>
+
+  <section class="cartao tabela-cartao">
+    <header class="tabela-topo">
+      <div><h2>Classificações</h2><p id="t-info">–</p></div>
+      <label class="compacto">Por página
+        <select id="t-por-pagina"><option>10</option><option selected>20</option><option>50</option></select>
+      </label>
+    </header>
+    <div class="rolagem">
+      <table class="tabela" id="tabela">
+        <thead>
+          <tr>
+            <th data-campo="posicao" class="num">Pos</th>
+            <th data-campo="time">Time</th>
+            <th data-campo="liga">Liga</th>
+            <th data-campo="ano_inicio">Temporada</th>
+            <th data-campo="pontos" class="num">Pts</th>
+            <th class="num">J</th>
+            <th data-campo="vitorias" class="num">V</th>
+            <th class="num">E</th>
+            <th class="num">D</th>
+            <th data-campo="gols_pro" class="num">GP</th>
+            <th data-campo="gols_contra" class="num">GC</th>
+            <th data-campo="saldo" class="num">SG</th>
+            <th data-campo="aproveitamento" class="num">Aprov.</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <nav class="paginacao" aria-label="Paginação">
+      <button id="p-ant" type="button" class="botao-sec">← Anterior</button>
+      <span id="p-info">–</span>
+      <button id="p-prox" type="button" class="botao-sec">Próxima →</button>
+    </nav>
+  </section>
+
+  <section class="cartao tabela-cartao">
+    <header class="tabela-topo"><div><h2>Artilheiros</h2><p id="a-info">Maiores goleadores conforme os filtros</p></div></header>
+    <div class="rolagem">
+      <table class="tabela" id="tabela-art">
+        <thead><tr><th class="num">#</th><th>Jogador</th><th>Clube</th><th>Liga</th><th>Temporada</th><th class="num">Gols</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer class="rodape">
+    <p class="grupo"><strong>Grupo:</strong> Douglas Patriota (RM569713) · Vitor Cintra (RM569416) ·
+      Octavio Kal (RM571838) · Pedro Brito (RM573187) · Guilherme Zeferino (RM572075)</p>
+    <p>Dados: Wikipédia (en), licença CC BY-SA · Fluxo: Site → Crawler → MongoDB → FastAPI → Dashboard ·
+      <a href="/docs" target="_blank" rel="noopener">Documentação da API</a></p>
+  </footer>
+
+  <script src="vendor/chart.umd.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

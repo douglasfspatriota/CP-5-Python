@@ -1,0 +1,166 @@
+/* ======================= Cores (tema claro e escuro) ======================= */
+:root {
+  color-scheme: light;
+  --pagina: #f9f9f7;
+  --superficie: #fcfcfb;
+  --texto: #0b0b0b;
+  --texto-2: #52514e;
+  --texto-3: #898781;
+  --grade: #e1e0d9;
+  --eixo: #c3c2b7;
+  --borda: rgba(11, 11, 11, 0.10);
+  --destaque: #2a78d6;
+  --campeao-fundo: #e6f4e6;
+  --campeao-texto: #006300;
+  --rebaixado-fundo: #fbe9e9;
+  --rebaixado-texto: #b42f2f;
+  --andamento-fundo: #e5effb;
+  --andamento-texto: #1c5cab;
+  /* Uma cor fixa por liga (a cor acompanha a liga, nunca a posição) */
+  --liga-premier-league: #2a78d6;
+  --liga-la-liga: #eb6834;
+  --liga-serie-a: #1baf7a;
+  --liga-bundesliga: #eda100;
+  --liga-ligue-1: #e87ba4;
+  --liga-brasileirao: #008300;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --pagina: #0d0d0d;
+    --superficie: #1a1a19;
+    --texto: #ffffff;
+    --texto-2: #c3c2b7;
+    --texto-3: #898781;
+    --grade: #2c2c2a;
+    --eixo: #383835;
+    --borda: rgba(255, 255, 255, 0.10);
+    --destaque: #3987e5;
+    --campeao-fundo: #12301a;
+    --campeao-texto: #0ca30c;
+    --rebaixado-fundo: #3a1717;
+    --rebaixado-texto: #e66767;
+    --andamento-fundo: #14263d;
+    --andamento-texto: #86b6ef;
+    --liga-premier-league: #3987e5;
+    --liga-la-liga: #d95926;
+    --liga-serie-a: #199e70;
+    --liga-bundesliga: #c98500;
+    --liga-ligue-1: #d55181;
+    --liga-brasileirao: #008300;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --pagina: #0d0d0d; --superficie: #1a1a19; --texto: #ffffff; --texto-2: #c3c2b7;
+  --texto-3: #898781; --grade: #2c2c2a; --eixo: #383835; --borda: rgba(255,255,255,0.10);
+  --destaque: #3987e5; --campeao-fundo: #12301a; --campeao-texto: #0ca30c;
+  --rebaixado-fundo: #3a1717; --rebaixado-texto: #e66767;
+  --andamento-fundo: #14263d; --andamento-texto: #86b6ef;
+  --liga-premier-league: #3987e5; --liga-la-liga: #d95926; --liga-serie-a: #199e70;
+  --liga-bundesliga: #c98500; --liga-ligue-1: #d55181; --liga-brasileirao: #008300;
+}
+
+/* ================================ Base ================================ */
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body {
+  margin: 0;
+  padding: 24px clamp(16px, 4vw, 48px) 32px;
+  background: var(--pagina);
+  color: var(--texto);
+  font: 14px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  max-width: 1400px;
+  margin-inline: auto;
+}
+h1, h2, p { margin: 0; }
+a { color: var(--destaque); }
+
+.topo { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; }
+.sub { color: var(--texto-2); margin-top: 4px; }
+.coleta { color: var(--texto-3); font-size: 13px; }
+
+/* ================================ Filtros ================================ */
+.filtros {
+  display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end;
+  padding: 14px 16px; background: var(--superficie); border: 1px solid var(--borda);
+  border-radius: 10px; margin-bottom: 16px;
+  position: sticky; top: 0; z-index: 5;
+}
+.filtros label, .compacto { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--texto-2); font-weight: 600; }
+.filtros .cresce { flex: 1 1 220px; }
+select, input[type="search"] {
+  font: inherit; color: var(--texto); background: var(--pagina);
+  border: 1px solid var(--borda); border-radius: 6px; padding: 7px 10px; min-width: 150px;
+}
+select:focus-visible, input:focus-visible, button:focus-visible { outline: 2px solid var(--destaque); outline-offset: 1px; }
+.botao-sec {
+  font: inherit; color: var(--texto); background: transparent; cursor: pointer;
+  border: 1px solid var(--borda); border-radius: 6px; padding: 7px 12px;
+}
+.botao-sec:hover:not(:disabled) { background: var(--grade); }
+.botao-sec:disabled { color: var(--texto-3); cursor: default; }
+
+.erro { background: var(--rebaixado-fundo); color: var(--rebaixado-texto); padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; }
+
+/* ================================ KPIs ================================ */
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin-bottom: 16px; }
+.kpi { background: var(--superficie); border: 1px solid var(--borda); border-radius: 10px; padding: 14px 16px; min-width: 0; }
+.kpi h2 { font-size: 12px; font-weight: 600; color: var(--texto-2); }
+.kpi .valor { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; margin-top: 4px; }
+.kpi .valor.texto { font-size: 20px; line-height: 1.25; padding-top: 6px; overflow-wrap: anywhere; }
+.kpi .det { color: var(--texto-3); font-size: 12px; margin-top: 2px; }
+
+/* ================================ Gráficos ================================ */
+.graficos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 16px; }
+.cartao { background: var(--superficie); border: 1px solid var(--borda); border-radius: 10px; padding: 16px; min-width: 0; }
+.cartao.largo { grid-column: 1 / -1; }
+.cartao header h2 { font-size: 15px; font-weight: 650; }
+.cartao header p { color: var(--texto-3); font-size: 12px; margin-top: 2px; }
+.area-grafico { position: relative; height: 300px; margin-top: 12px; }
+.vazio { position: absolute; inset: 0; display: grid; place-items: center; color: var(--texto-3); }
+@media (max-width: 860px) {
+  .graficos { grid-template-columns: 1fr; }
+  .area-grafico { height: 260px; }
+}
+
+/* ================================ Tabelas ================================ */
+.tabela-cartao { margin-bottom: 16px; }
+.tabela-topo { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; margin-bottom: 10px; }
+.compacto select { min-width: 80px; }
+.rolagem { overflow-x: auto; }
+.tabela { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.tabela th, .tabela td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--grade); white-space: nowrap; }
+.tabela th { font-size: 12px; color: var(--texto-2); font-weight: 600; user-select: none; }
+.tabela th[data-campo] { cursor: pointer; }
+.tabela th[data-campo]:hover { color: var(--texto); }
+.tabela th.ordenado::after { content: " ▲"; font-size: 10px; }
+.tabela th.ordenado.desc::after { content: " ▼"; }
+.tabela .num { text-align: right; }
+.tabela tbody tr:hover { background: var(--pagina); }
+.tabela td.time { font-weight: 600; }
+.ponto-liga { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: 1px; }
+.selo { display: inline-block; font-size: 11px; font-weight: 600; padding: 1px 7px; border-radius: 999px; margin-left: 6px; }
+.selo.campeao { background: var(--campeao-fundo); color: var(--campeao-texto); }
+.selo.rebaixado { background: var(--rebaixado-fundo); color: var(--rebaixado-texto); }
+.tabela .sem-dados { text-align: center; color: var(--texto-3); padding: 24px; }
+
+.paginacao { display: flex; justify-content: flex-end; align-items: center; gap: 12px; margin-top: 12px; color: var(--texto-2); }
+
+.rodape { color: var(--texto-3); font-size: 12px; text-align: center; margin-top: 8px; display: grid; gap: 4px; }
+.rodape .grupo { color: var(--texto-2); }
+
+.legenda { display: flex; flex-wrap: wrap; gap: 4px 14px; margin-top: 10px; font-size: 12px; color: var(--texto-2); }
+.area-grafico.recolhido { height: 90px; }
+
+/* ============================ Temporada atual ============================ */
+.atual { margin-bottom: 16px; }
+.atual header h2 { display: flex; align-items: center; gap: 4px; }
+.selo.andamento { background: var(--andamento-fundo); color: var(--andamento-texto); }
+.atual-grade { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 10px; margin-top: 12px; }
+.atual-item { border: 1px solid var(--borda); border-radius: 8px; padding: 12px 14px; border-top: 3px solid var(--cor-liga); background: var(--pagina); min-width: 0; }
+.atual-item .liga { font-size: 12px; color: var(--texto-2); font-weight: 600; }
+.atual-item .lider { font-size: 17px; font-weight: 700; margin-top: 4px; overflow-wrap: anywhere; }
+.atual-item .det { font-size: 12px; color: var(--texto-3); margin-top: 2px; }
+.atual-item .linhas { margin-top: 8px; font-size: 12px; color: var(--texto-2); display: grid; gap: 2px; }
